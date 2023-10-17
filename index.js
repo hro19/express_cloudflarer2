@@ -11,7 +11,7 @@ const upload = multer({
   storage,
 });
 
-app.post('/upload', upload.single('file'), (req, res) => {
+app.post('/api/upload', upload.single('file'), (req, res) => {
   console.log(req.file);
   res.send('File Upload');
 });
