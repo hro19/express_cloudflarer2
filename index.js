@@ -3,6 +3,7 @@ import multer from 'multer';
 import cors from 'cors';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import dotenv from 'dotenv';
+import sharp from 'sharp';
 
 const app = express();
 const port = 5000;
@@ -24,9 +25,13 @@ app.post('/api/upload', upload.single('file'), async (req, res) => {
     },
   });
 
+  const resizeFileBuffer = await sharp(req.file.buffer)
+  .resize({ width: 700 })
+  .toBuffer();
+
   await S3.send(
     new PutObjectCommand({
-      Body: req.file.buffer,
+      Body: resizeFileBuffer,
       Bucket: 'reffect',
       Key: req.file.originalname,
       ContentType: req.file.mimetype,
