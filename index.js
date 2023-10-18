@@ -33,7 +33,7 @@ app.post('/api/upload', upload.single('file'), async (req, res) => {
     await S3.send(
       new PutObjectCommand({
         Body: req.file.buffer,
-        Bucket: 'reffect',
+        Bucket: process.env.BUKET_NAME,
         Key: req.file.originalname,
         ContentType: req.file.mimetype,
       })
