@@ -25,14 +25,19 @@ app.post('/api/upload', upload.single('file'), async (req, res) => {
     },
   });
 
-  const resizeFileBuffer = await sharp(req.file.buffer)
-  .resize({ width: 700 })
-  .toBuffer();
+  let fileBuffer = req.file.buffer;
+
+  // ファイルが画像の場合だけsharpを使用してリサイズ
+  if (req.file.mimetype.startsWith('image/')) {
+    fileBuffer = await sharp(req.file.buffer)
+      .resize({ width: 700 })
+      .toBuffer();
+  }
 
   try {
     await S3.send(
       new PutObjectCommand({
-        Body: req.file.buffer,
+        Body: fileBuffer,
         Bucket: process.env.BUKET_NAME,
         Key: req.file.originalname,
         ContentType: req.file.mimetype,
