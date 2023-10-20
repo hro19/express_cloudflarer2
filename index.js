@@ -40,7 +40,7 @@ app.post('/api/upload', upload.single('file'), async (req, res) => {
         Body: fileBuffer,
         Bucket: process.env.BUKET_NAME,
         Key: req.file.originalname,
-        ContentType: req.file.mimetype,
+        ContentType: `${req.file.mimetype}; charset=utf-8`,
       })
     );
     // ファイルアップロードが成功した場合、JSONレスポンスを返す
