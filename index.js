@@ -44,10 +44,10 @@ app.post('/api/upload', upload.single('file'), async (req, res) => {
       })
     );
     // ファイルアップロードが成功した場合、JSONレスポンスを返す
-    res.status(200).json({ httpStatus: 200, message: 'File Upload Successful' });
+    res.status(200).json({ httpStatus: 200, message: 'ファイルアップロード成功' });
   } catch (error) {
     // エラーが発生した場合、JSONレスポンスを返す
-    res.status(500).json({ httpStatus: 500, message: 'File Upload Failed' });
+    res.status(500).json({ httpStatus: 500, message: 'アップロード失敗' });
   }
 });
 
